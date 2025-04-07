@@ -1,23 +1,19 @@
 #include <BluetoothA2DPSink.h>
+#include <AudioTools.h>
 
-BluetoothA2DPSink a2dp_sink;
+// Output to DAC1 (GPIO 25)
+AnalogAudioStream out;
+BluetoothA2DPSink a2dp_sink(out);
 
 void setup() {
   Serial.begin(115200);
-  Serial.println("Starting Bluetooth A2DP Sink...");
+  Serial.println("Starting Bluetooth A2DP sink");
 
-  // Start A2DP Sink with internal DAC output (GPIO 25 / DAC1)
-  a2dp_sink.set_output(audio_output);
-  a2dp_sink.start("ESP32_FM_Stream");
+  // Start Bluetooth and route to DAC
+  a2dp_sink.set_auto_reconnect(true);
+  a2dp_sink.start("ESP_FM_TRANS"); // Name that appears on your phone
 }
 
 void loop() {
-  // Nothing needed here, audio is handled by callbacks
-}
-
-void audio_output(const uint8_t *data, uint32_t len) {
-  // Send audio data to DAC1 (GPIO25)
-  for (uint32_t i = 0; i < len; i++) {
-    dacWrite(25, data[i]); // scale or average if stereo
-  }
+  // Nothing needed here; everything happens in background
 }
