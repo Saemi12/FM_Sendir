@@ -2,6 +2,7 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_ILI9341.h>
 #include <BluetoothA2DPSink.h>
+#include "IcelandicCharConverter.h"  // Include the header file
 
 #define TFT_CS     5
 #define TFT_RST    22
@@ -18,10 +19,12 @@ void avrc_metadata_callback(uint8_t data1, const uint8_t *data2) {
   if (data1 == 0x01) {
     strncpy(songTitle, (char*)data2, sizeof(songTitle) - 1);
     songTitle[sizeof(songTitle) - 1] = '\0';
+    songTitle[63] = '\0';  // Ensure null termination
     Serial.printf("Title: %s\n", songTitle);
   } else if (data1 == 0x02) {
     strncpy(songArtist, (char*)data2, sizeof(songArtist) - 1);
     songArtist[sizeof(songArtist) - 1] = '\0';
+    songArtist[63] = '\0';  // Ensure null termination
     Serial.printf("Artist: %s\n", songArtist);
   }
 }
@@ -77,10 +80,14 @@ void loop() {
   }
 
   if (connected) {
+    // Convert song title and artist to simpler characters
+    String convertedTitle = convertIcelandicChars(songTitle);
+    String convertedArtist = convertIcelandicChars(songArtist);
+
     // Show title and artist
     tft.fillRect(0, 60, 240, 60, ILI9341_BLACK);  // Clear display area
-    drawCenteredText(songTitle, 60, 2);
-    drawCenteredText(songArtist, 90, 2);
+    drawCenteredText(convertedTitle.c_str(), 60, 2);
+    drawCenteredText(convertedArtist.c_str(), 90, 2);
   }
 
   delay(1000);
