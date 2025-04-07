@@ -16,6 +16,7 @@ String songArtist = "";
 String lastSongTitle = "";
 String lastSongArtist = "";
 bool wasConnected = false;
+bool UpdateBlue = false;
 
 void drawCenteredText(String text, int y, uint8_t textSize) {
   tft.setTextSize(textSize);
@@ -26,7 +27,7 @@ void drawCenteredText(String text, int y, uint8_t textSize) {
   tft.getTextBounds(text, 0, y, &x1, &y1, &w, &h);
 
   // Truncate with "..." if it’s too wide
-  while (w > 240 && text.length() > 0) {
+  while (w > 310 && text.length() > 0) {
     text.remove(text.length() - 1);
     tft.getTextBounds(text + "...", 0, y, &x1, &y1, &w, &h);
   }
@@ -36,7 +37,7 @@ void drawCenteredText(String text, int y, uint8_t textSize) {
     text += "...";
   }
 
-  int16_t x = (240 - w) / 2;
+  int16_t x = (320 - w) / 2;
   tft.setCursor(x, y);
   tft.println(text);
 }
@@ -60,7 +61,7 @@ void setup() {
   tft.setTextColor(ILI9341_WHITE);
   tft.setTextSize(2);
 
-  drawCenteredText("Waiting for BT...", 100, 2);
+  drawCenteredText("Waiting for Bluetooth", 100, 2);
 
   a2dp_sink.set_avrc_metadata_callback(avrc_metadata_callback);
   a2dp_sink.start("ESP_FM_Transmitter");
@@ -73,20 +74,22 @@ void loop() {
     tft.fillScreen(ILI9341_BLACK);
     if (connected) {
       drawCenteredText("Bluetooth Connected!", 100, 2);
+      UpdateBlue = true;
     } else {
-      drawCenteredText("Waiting for BT...", 100, 2);
+      drawCenteredText("Waiting for Bluetooth", 100, 2);
     }
     wasConnected = connected;
   }
 
   if (connected) {
-    if (songTitle != lastSongTitle || songArtist != lastSongArtist) {
-      tft.fillRect(0, 60, 240, 60, ILI9341_BLACK);  // Clear song area
-      drawCenteredText(songTitle, 60, 2);
-      drawCenteredText(songArtist, 90, 2);
+    if (songTitle != lastSongTitle || songArtist != lastSongArtist || UpdateBlue) {
+      tft.fillRect(0, 60, 320, 60, ILI9341_BLACK);  // Clear song area
+      drawCenteredText(songTitle, 90, 2);
+      drawCenteredText(songArtist, 120, 2);
 
       lastSongTitle = songTitle;
       lastSongArtist = songArtist;
+      UpdateBlue = false;
     }
   }
 

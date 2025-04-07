@@ -25,8 +25,8 @@ String convertIcelandicChars(String input) {
   input.replace("Ó", "O");
   input.replace("Ú", "U");
   input.replace("Ý", "Y");
-  input.replace("Þ", "TH");
-  input.replace("Æ", "AE");
+  input.replace("Þ", "Th");
+  input.replace("Æ", "Ae");
   input.replace("Ö", "O");
 
   return input;
