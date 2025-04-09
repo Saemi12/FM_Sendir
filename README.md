@@ -16,3 +16,4 @@ Notaði kóða frá þessum repositories:
 - https://github.com/adafruit/Adafruit_ILI9341
 - https://github.com/pschatzmann/arduino-audio-tools
 - https://github.com/esp8266/Arduino/blob/master/libraries/Wire/Wire.h
+- https://github.com/adafruit/Adafruit-GFX-Library
