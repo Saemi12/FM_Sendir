@@ -17,3 +17,23 @@ Notaði kóða frá þessum repositories:
 - https://github.com/pschatzmann/arduino-audio-tools
 - https://github.com/esp8266/Arduino/blob/master/libraries/Wire/Wire.h
 - https://github.com/adafruit/Adafruit-GFX-Library
+
+
+Wiring fyrir LCD display:
+
+• VCC → 3.3V on the ESP32
+
+• GND → GND on the ESP32
+
+• DIN (Data In) → GPIO 23 (MOSI)
+
+• CLK (Clock) → GPIO 18 (SCK)
+
+• CS (Chip Select) → GPIO 5 (or any available GPIO pin)
+
+• DC (Data/Command) → GPIO 21 (or any available GPIO pin)
+
+• RST (Reset) → GPIO 22 (or any available GPIO pin)
+
+• BL (Backlight) → 3.3V (or 3.3V pin on ESP32)
+
